@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: rgba(0, 0, 0, 0.5); /* Dark semi-transparent background */
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.9); /* Light semi-transparent background */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 300px;
+            backdrop-filter: blur(10px); /* Optional: adds a blur effect to the background */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+
+        #register-captcha {
+            background: #ddd;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container" id="login-form-container">
+        <form id="login-form">
+            <h2>Login</h2>
+            <label for="login-email">Email:</label>
+            <input type="email" id="login-email" name="email" placeholder="Enter your email" required>
+            
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" name="password" placeholder="Enter your password" required>
+            
+            <div class="options">
+                <label>
+                    <input type="checkbox" id="remember-me"> Remember Me
+                </label>
+                <a href="#" id="forgot-password">Forgot Password?</a>
+            </div>
+            
+            <button type="submit">Login</button>
+            <div id="login-error" class="error-message"></div>
+            <a href="#" id="switch-to-register">Don't have an account? Register here.</a>
+        </form>
+    </div>
+
+    <div class="form-container" id="register-form-container" style="display: none;">
+        <form id="register-form">
+            <h2>Register</h2>
+            <label for="register-username">Username:</label>
+            <input type="text" id="register-username" name="username" placeholder="Enter your username">
+            
+            <label for="register-email">Email:</label>
+            <input type="email" id="register-email" name="email" placeholder="Enter your email" required>
+            
+            <label for="register-password">Password:</label>
+            <input type="password" id="register-password" name="password" placeholder="Enter your password" required>
+            
+            <label for="register-confirm-password">Confirm Password:</label>
+            <input type="password" id="register-confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+            
+            <div class="options">
+                <label>
+                    <input type="checkbox" id="terms"> I agree to the <a href="#">Terms and Conditions</a>
+                </label>
+                <div id="register-captcha" class="captcha">CAPTCHA</div>
+            </div>
+            
+            <button type="submit">Register</button>
+            <div id="register-error" class="error-message"></div>
+            <a href="#" id="switch-to-login">Already have an account? Login here.</a>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginFormContainer = document.getElementById('login-form-container');
+            const registerFormContainer = document.getElementById('register-form-container');
+            
+            const switchToRegister = document.getElementById('switch-to-register');
+            const switchToLogin = document.getElementById('switch-to-login');
+
+            switchToRegister.addEventListener('click', function(event) {
+                event.preventDefault();
+                loginFormContainer.style.display = 'none';
+                registerFormContainer.style.display = 'block';
+            });
+
+            switchToLogin.addEventListener('click', function(event) {
+                event.preventDefault();
+                registerFormContainer.style.display = 'none';
+                loginFormContainer.style.display = 'block';
+            });
+
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+
+                    // Simple validation (Replace with actual authentication logic)
+                    if (email && password) {
+                        alert('Logged in successfully!');
+                    } else {
+                        document.getElementById('login-error').textContent = 'Please enter both email and password.';
+                    }
+                });
+            }
+            
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const username = document.getElementById('register-username').value;
+                    const email = document.getElementById('register-email').value;
+                    const password = document.getElementById('register-password').value;
+                    const confirmPassword = document.getElementById('register-confirm-password').value;
+                    const terms = document.getElementById('terms').checked;
+
+                    // Simple validation (Replace with actual registration logic)
+                    if (email && password && password === confirmPassword && terms) {
+                        alert('Registered successfully!');
+                    } else {
+                        document.getElementById('register-error').textContent = 'Please fill out all fields correctly and agree to terms.';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
